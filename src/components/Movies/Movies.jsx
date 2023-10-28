@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+
+import { useGetMoviesQuery } from '../../services/TMDB';
+// eslint-disable-next-line import/no-cycle
+import { MovieList } from '..';
 
 const Movies = () => {
-  console.log('Movies');
+  const { data, error, isFetching } = useGetMoviesQuery();
+
+  if (isFetching) {
+    return (
+      <Box display="flex" justifyContent="center">
+        <CircularProgress sixe="4rem" />
+      </Box>
+    );
+  }
+
+  if (!data.results.length) {
+    return (
+      <Box display="flex" alignItems="center" mt="20px">
+        <Typography variant="h4">
+          Không tìm thấy kết quả. Hãy thử tìm với từ khóa khác nha!
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (error) return 'Có lỗi xảy ra';
+
   return (
-    <div>Movies</div>
+    <div>
+      <MovieList movies={data} />
+    </div>
   );
 };
 

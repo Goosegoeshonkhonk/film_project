@@ -23,9 +23,9 @@ const App = () => {
             <Actors />
           </Route>
 
-          <Route exact path="/">
-            <Movies />
-          </Route>
+          {/* <Route exact path="/">
+            <MovieList />
+          </Route> */}
 
           <Route exact path="/movies">
             <h1>Movies</h1>
