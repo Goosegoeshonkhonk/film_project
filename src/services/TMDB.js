@@ -9,7 +9,11 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
     getMovies: builder.query({
       query: () => ({
-        url: `/movie/popular?language=vi-VN&page=${page}`,
+        url: `/movie/popular`,
+        params: {
+          language: 'vi-VN',
+          page: page,
+        },
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${tmdbApiKey}`,
@@ -20,4 +24,5 @@ export const movieApi = createApi({
 });
 
 export const {
-  useGetMoviesQuery } = movieApi;
+  useGetMoviesQuery
+} = movieApi;

@@ -3,7 +3,7 @@ import { CssBaseline } from '@mui/material';
 import { Route, Switch } from 'react-router-dom';
 import useStyles from './styles';
 
-import { Actors, MovieInfor, Movies, NavBar, Profile } from '.';
+import { Actors, MovieInfor, MovieList, Movies, NavBar, Profile } from '.';
 
 // -> root -> all movies -> /id123 -> movie information -> more //
 const App = () => {
@@ -23,9 +23,9 @@ const App = () => {
             <Actors />
           </Route>
 
-          {/* <Route exact path="/">
-            <MovieList />
-          </Route> */}
+          <Route exact path="/">
+            <Movies />
+          </Route> 
 
           <Route exact path="/movies">
             <h1>Movies</h1>
