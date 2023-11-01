@@ -4,7 +4,6 @@ import { Menu, AccountCircle, Brightness4, Brightness7, FamilyRestroomRounded } 
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 
-// eslint-disable-next-line import/no-cycle
 import { Sidebar } from '..';
 import useStyle from './style';
 
