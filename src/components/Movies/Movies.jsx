@@ -3,7 +3,6 @@ import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material'
 import { useSelector } from 'react-redux';
 
 import { useGetMoviesQuery } from '../../services/TMDB';
-// eslint-disable-next-line import/no-cycle
 import { MovieList } from '..';
 
 const Movies = () => {
