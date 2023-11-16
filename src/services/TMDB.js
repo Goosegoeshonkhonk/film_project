@@ -24,48 +24,46 @@ export const movieApi = createApi({
 
     //Get movies by types
     getMovies: builder.query({
-      query: (genreIdOrCategoryName, page) => {
-        //popular, top_rated_upcoming -> string
-        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
-          return {
-            url: `/movie/${genreIdOrCategoryName}`,
-            params: {
-              language: 'en-US',
-              page: page,
-            },
-            headers: {
-              accept: 'application/json',
-              Authorization: `Bearer ${tmdbApiKey}`,
-            },
-          }
-        }
+    query: ({genreIdOrCategoryName, page}) => {
+    let queryDetails;
 
-        // movie genres -> number
-        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
-          return {
-            url: `/discover/movie/`,
-            params: {
-              with_genres: genreIdOrCategoryName,
-              language: 'en-US',
-              page: page,
-            },
-            headers: {
-              accept: 'application/json',
-              Authorization: `Bearer ${tmdbApiKey}`,
-            },
-          }
-        }
-        
-        //popular movies -> starting first
-        return {
-          url: `/movie/popular`,
-          params: {
-            language: 'vi-VN',
-            page: page,
-          },
-          headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${tmdbApiKey}`,
+    //popular, top_rated_upcoming -> string
+    if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
+      queryDetails = {
+        url: `/movie/${genreIdOrCategoryName}`,
+        params: {
+          language: 'vi-VN',
+          page: page,
+        },
+      }
+    }
+    // movie genres -> number
+    else if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
+      queryDetails = {
+        url: `/discover/movie/`,
+        params: {
+          with_genres: genreIdOrCategoryName,
+          language: 'vi-VN',
+          page: page,
+        },
+      }
+    }
+    // default
+    else {
+      queryDetails = {
+        url: `/movie/popular`,
+        params: {
+          language: 'vi-VN',
+          page: page,
+        },
+      }
+    }
+
+    return {
+      ...queryDetails,
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${tmdbApiKey}`,
           },
         }
       },
