@@ -10,6 +10,7 @@ import useStyles from './styles'
 
 const Search = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [query, setQuery] = useState('');
     console.log('Search');
 
