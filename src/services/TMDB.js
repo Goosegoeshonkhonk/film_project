@@ -26,7 +26,7 @@ export const movieApi = createApi({
     let queryDetails;
 
     //Get by search
-    if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
+    if (searchQuery) {
       queryDetails = {
         url: `/search/movie`,
         params: {
@@ -38,7 +38,7 @@ export const movieApi = createApi({
     }
 
     //popular, top_rated_upcoming -> string
-    if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
+    else if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
       queryDetails = {
         url: `/movie/${genreIdOrCategoryName}`,
         params: {
