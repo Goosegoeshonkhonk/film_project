@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setUser, userSelector } from '../../features/auth';
 import { Sidebar, Search } from '..';
-import { createSessionId, fetchToken, getSessionId, moviesApi } from '../../utils';
-import useStyle from './style';
+import { createSessionId, fetchToken, moviesApi } from '../../utils';
+import useStyle from './styles';
 
 const NavBar = () => {
   const { isAuthenticated, user } = useSelector(userSelector);
@@ -27,12 +27,11 @@ const NavBar = () => {
       if (token) {
         if (sessionIdFromLocalStorage) {
           const { data: userData } = await moviesApi.get(`/account?session_id=${sessionIdFromLocalStorage}`);
-
+          console.log(1);
           dispatch(setUser(userData));
         } else {
           const sessionId = await createSessionId();
           const { data: userData } = await moviesApi.get(`/account?session_id=${sessionId}`);
-
           dispatch(setUser(userData));
         }
       }
@@ -78,7 +77,7 @@ const NavBar = () => {
               <Button
                 color="inherit"
                 component={Link}
-                to="/profile/:id"
+                to={`/profile/${user.id}`}
                 className={classes.linkButton}
                 onClick={() => {}}
               >
