@@ -5,9 +5,9 @@ import { useTheme } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
-import { useGetGenresQuery } from '../../services/TMDB'
+import { useGetGenresQuery } from '../../services/TMDB';
 import useStyles from './style';
-import genreIcons from '../../assets/genres'
+import genreIcons from '../../assets/genres';
 
 const categories = [
   { label: 'Popular', value: 'popular' },
@@ -22,7 +22,7 @@ const SideBar = ({ setMobileOpen }) => {
   const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
   const theme = useTheme();
   const classes = useStyles();
-  const {data, isFetching} = useGetGenresQuery();
+  const { data, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
   return (
     <>
