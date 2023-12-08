@@ -11,7 +11,7 @@ export const movieApi = createApi({
       query: () => ({
         url: '/genre/movie/list',
         params: {
-          language: 'en',
+          language: 'vi',
         },
         headers: {
           accept: 'application/json',

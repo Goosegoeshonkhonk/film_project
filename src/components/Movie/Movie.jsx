@@ -12,7 +12,7 @@ const Movie = ({ movie, i }) => {
       <Grow in key={1} timeout={(i + 1) * 250}>
         <Link className={classes.links} to={`/movie/${movie.id}`}>
           <img alt={movie.title} className={classes.image} src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : 'https://unsplash.com/fr/photos/chaise-de-cinema-rouge-evlkOfkQ5rE'} />
-          
+
           <Typography className={classes.title} variant="h5">
             {movie.title}
           </Typography>

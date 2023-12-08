@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
+import { userSelector } from '../../features/auth';
 
 import { useGetMovieQuery } from '../../services/TMDB';
 
 const MovieInfo = () => {
+  const { user } = useSelector(userSelector);
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
   const classes = useStyles();
@@ -51,11 +53,11 @@ const MovieInfo = () => {
           <Box display="flex" align="center">
             <Rating readOnly value={data.vote_average / 2} />
             <Typography variant="subtitle1" gutterBottom style={{ marginLeft: '10px' }}>
-              {data?.vote_average} / 10
+              {data?.vote_average.toFixed(2)} / 10
             </Typography>
           </Box>
           <Typography variant="h7" align="center" gutterBottom>
-            {data?.runtime}min | Language: {data?.spoken_languages[0].name}
+            {data?.runtime} phút | Ngôn ngữ: {data?.spoken_languages[0].name}
           </Typography>
         </Grid>
         <Grid item className={classes.genresContainer}>
@@ -66,13 +68,35 @@ const MovieInfo = () => {
               to="/"
               onClick={() => dispatch(selectGenreOrCategory(genre.id))}
             >
-              <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} height={30} />
+              <img src={genreIcons[`a${genre.id}`]} className={classes.genreImage} width={24} />
               <Typography color="textPrimary" variant="subtitle1">
                 {genre?.name}
               </Typography>
             </Link>
           )) }
         </Grid>
+        <Typography variant="h5" gutterBottom style={{ marginTop: '10px' }}>
+          Overview
+        </Typography>
+        <Typography style={{ marginBottom: '2rem' }}>
+          {data?.overview}
+        </Typography>
+
+        <Typography variant="h5" gutterBottom>Top Cast</Typography>
+        <Grid item container spacing={2}>
+          {data && data.credits.cast.map((character, i) => (
+            character.profile_path && (
+              <Grid key={i} item xs={4} md={2} component={Link} to={`/actors/${character.id}`} style={{ textDecoration: 'none' }}>
+                <img className={classes.castImage} src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`} alt={character.name} />
+                <Typography color="textPrimary">{character?.name}</Typography>
+                <Typography color="textSecondary">
+                  {character.character.split('/')[0]}
+                </Typography>
+              </Grid>
+            )
+          )).slice(0, 6)}
+        </Grid>
+
       </Grid>
     </Grid>
 
