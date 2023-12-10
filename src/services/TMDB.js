@@ -35,6 +35,20 @@ export const movieApi = createApi({
       }),
     }),
 
+    // Get actors
+    getCredit: builder.query({
+      query: (id) => ({
+        url: `/movie/${id}/credits`,
+        params: {
+          language: 'vi-VN',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
     // Get movies by types
     getMovies: builder.query({
       query: ({ genreIdOrCategoryName, page, searchQuery }) => {
@@ -100,4 +114,5 @@ export const {
   useGetMoviesQuery,
   useGetGenresQuery,
   useGetMovieQuery,
+  useGetCreditQuery,
 } = movieApi;
