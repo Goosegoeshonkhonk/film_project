@@ -4,18 +4,21 @@ import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBord
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
 import { userSelector } from '../../features/auth';
 import TopCast from '../TopCast/TopCast';
+import MovieList from '../MovieList/MovieList';
 
-import { useGetCreditQuery, useGetMovieQuery } from '../../services/TMDB';
+import { useGetRecommendationsQuery, useGetMovieQuery } from '../../services/TMDB';
 
 const MovieInfo = () => {
   const { user } = useSelector(userSelector);
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', id });
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -93,7 +96,7 @@ const MovieInfo = () => {
         <Typography style={{ marginBottom: '2rem' }}>
           {data?.overview}
         </Typography>
-        <Typography variant="h5" gutterBottom>Top Cast</Typography>
+        <Typography variant="h5" gutterBottom>Diễn viên nổi tiếng</Typography>
         <TopCast />
         <Grid item container style={{ marginTop: '2rem' }}>
           <div className={classes.buttonsContainer}>
@@ -122,6 +125,14 @@ const MovieInfo = () => {
           </div>
         </Grid>
       </Grid>
+      <Box marginTop="5rem" width="100%">
+        <Typography variant="h3" gutterBottom align="center">
+          Bạn cũng sẽ thích
+        </Typography>
+        {recommendations
+          ? <MovieList movies={recommendations} numberOfMovies={12} />
+          : <Box>Có vẻ như không có bộ phim nào hợp với bạn rồi</Box>}
+      </Box>
     </Grid>
 
   );

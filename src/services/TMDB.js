@@ -35,6 +35,21 @@ export const movieApi = createApi({
       }),
     }),
 
+    // Get movie recommendations
+    getRecommendations: builder.query({
+      query: ({id, list}) => ({
+        url: `/movie/${id}/${list}`,
+        params: {
+          append_to_response: 'videos, credits',
+          language: 'vi-VN',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
     // Get actors
     getCredit: builder.query({
       query: (id) => ({
@@ -115,4 +130,5 @@ export const {
   useGetGenresQuery,
   useGetMovieQuery,
   useGetCreditQuery,
+  useGetRecommendationsQuery,
 } = movieApi;
