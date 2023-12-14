@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack } from '@mui/icons-material';
 import axios from 'axios';
@@ -21,9 +21,11 @@ const MovieInfo = () => {
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', id });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
   const isMovieFavorited = true;
   const isMovieWatchlisted = true;
+  const videoKey = data?.videos?.results?.[0]?.key ?? '';
 
   const addToFavorites = () => {
 
@@ -133,6 +135,26 @@ const MovieInfo = () => {
           ? <MovieList movies={recommendations} numberOfMovies={12} />
           : <Box>Có vẻ như không có bộ phim nào hợp với bạn rồi</Box>}
       </Box>
+      {videoKey && (
+      <Modal
+        closeAfterTransition
+        className={classes.modal}
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <iframe
+          key={videoKey}
+          autoPlay
+          className={classes.video}
+          width="600"
+          height="400"
+          title="Trailer"
+          src={`https://www.youtube.com/embed/${videoKey}`}
+          allow="autoplay"
+        />
+      </Modal>
+      )}
+
     </Grid>
 
   );

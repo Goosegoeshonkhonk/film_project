@@ -25,7 +25,7 @@ export const movieApi = createApi({
       query: (id) => ({
         url: `/movie/${id}`,
         params: {
-          append_to_response: 'videos, credits',
+          append_to_response: 'videos ',
           language: 'vi-VN',
         },
         headers: {
@@ -37,7 +37,7 @@ export const movieApi = createApi({
 
     // Get movie recommendations
     getRecommendations: builder.query({
-      query: ({id, list}) => ({
+      query: ({ id, list }) => ({
         url: `/movie/${id}/${list}`,
         params: {
           append_to_response: 'videos, credits',
