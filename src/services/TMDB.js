@@ -50,11 +50,41 @@ export const movieApi = createApi({
       }),
     }),
 
+    // Get actor details
+    getActorsDetails: builder.query({
+      query: (id) => ({
+        url: `/person/${id}`,
+        params: {
+          language: 'en-US',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
     // Get actors
     getCredit: builder.query({
       query: (id) => ({
         url: `/movie/${id}/credits`,
         params: {
+          language: 'vi-VN',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
+    // Get Movies by Actors
+    getMoviesByActorId: builder.query({
+      query: ({ id, page }) => ({
+        url: '/discover/movie',
+        params: {
+          with_cast: id,
+          page,
           language: 'vi-VN',
         },
         headers: {
@@ -131,4 +161,6 @@ export const {
   useGetMovieQuery,
   useGetCreditQuery,
   useGetRecommendationsQuery,
+  useGetActorsDetailsQuery,
+  useGetMoviesByActorIdQuery,
 } = movieApi;
