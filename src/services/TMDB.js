@@ -94,6 +94,22 @@ export const movieApi = createApi({
       }),
     }),
 
+    // Get User Specific Lists
+    getList: builder.query({
+      query: ({ listName, accountId, sessionId, page }) => ({
+        url: `/account/${accountId}/${listName}`,
+        params: {
+          session_id: sessionId,
+          page,
+          language: 'vi-VN',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
     // Get movies by types
     getMovies: builder.query({
       query: ({ genreIdOrCategoryName, page, searchQuery }) => {
@@ -163,4 +179,5 @@ export const {
   useGetRecommendationsQuery,
   useGetActorsDetailsQuery,
   useGetMoviesByActorIdQuery,
+  useGetListQuery,
 } = movieApi;
