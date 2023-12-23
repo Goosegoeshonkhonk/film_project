@@ -21,10 +21,9 @@ const NavBar = () => {
 
   const colorMode = useContext(ColorModeContext);
 
-  console.log(user);
-
   const token = localStorage.getItem('request_token');
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+
   useEffect(() => {
     const logInUser = async () => {
       if (token) {
