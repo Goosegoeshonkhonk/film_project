@@ -11,3 +11,4 @@ export { default as Search } from './Search/Search';
 export { default as TopCast } from './TopCast/TopCast';
 export { default as Pagination } from './Pagination/Pagination';
 export { default as RatedCard } from './RatedCard/RatedCard';
+export { default as FeaturedMovie } from './FeaturedMovie/FeaturedMovie';
