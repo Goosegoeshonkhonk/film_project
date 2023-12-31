@@ -33,7 +33,7 @@ const Movies = () => {
   return (
     <div>
       <FeaturedMovie movie={data.results[0]} />
-      <MovieList movies={data} />
+      <MovieList movies={data} numberOfMovies={19} excludeFirst />
       <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
     </div>
   );

@@ -90,7 +90,7 @@ const NavBar = () => {
                     height: 30,
                   }}
                   alt="Profile"
-                  src="https://i.pravatar.cc/300"
+                  src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmdb?.avatar_path}`}
                 />
               </Button>
             )}
