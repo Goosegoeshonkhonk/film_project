@@ -22,6 +22,9 @@ import popular from './popular.png';
 import topRated from './top rated.png';
 import upcoming from './upcoming.png';
 
+import Logo_Red from './Logo_Red.png';
+import Logo_Blue from './Logo_Blue.png';
+
 export default {
   a28,
   a12,
@@ -46,4 +49,7 @@ export default {
   popular,
   'top rated': topRated,
   upcoming,
+
+  Logo_Blue,
+  Logo_Red,
 };

@@ -119,7 +119,7 @@ const MovieInfo = () => {
           )) }
         </Grid>
         <Typography variant="h5" gutterBottom style={{ marginTop: '10px' }}>
-          Overview
+          Nội dung
         </Typography>
         <Typography style={{ marginBottom: '2rem' }}>
           {data?.overview}
@@ -130,7 +130,7 @@ const MovieInfo = () => {
           <div className={classes.buttonsContainer}>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
               <ButtonGroup size="small" variant="outlined">
-                <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language />}>Website</Button>
+                <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language />}>Watch now</Button>
                 <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon />}>IMDB</Button>
                 <Button onClick={() => setOpen(true)} href="#" endIcon={<Theaters />}>Trailer</Button>
               </ButtonGroup>
