@@ -37,7 +37,7 @@ const useAI = () => {
           fetchToken();
         } else if (command === 'logout') {
           localStorage.clear();
-          history.push('/');
+          window.location.href = '/';
         } else if (command === 'search') {
           dispatch(searchMovie(query));
         }

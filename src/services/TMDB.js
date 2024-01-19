@@ -25,8 +25,22 @@ export const movieApi = createApi({
       query: (id) => ({
         url: `/movie/${id}`,
         params: {
-          append_to_response: 'videos ',
+          append_to_response: 'videos',
           language: 'vi-VN',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${tmdbApiKey}`,
+        },
+      }),
+    }),
+
+    // Get video query
+    getVideo: builder.query({
+      query: (id) => ({
+        url: `/movie/${id}/videos`,
+        params: {
+          language: 'en-US',
         },
         headers: {
           accept: 'application/json',
@@ -37,10 +51,10 @@ export const movieApi = createApi({
 
     // Get movie recommendations
     getRecommendations: builder.query({
-      query: ({ id, list }) => ({
-        url: `/movie/${id}/${list}`,
+      query: ({ id, page }) => ({
+        url: `/movie/${id}/recommendations`,
         params: {
-          append_to_response: 'videos, credits',
+          page,
           language: 'vi-VN',
         },
         headers: {
@@ -180,4 +194,5 @@ export const {
   useGetActorsDetailsQuery,
   useGetMoviesByActorIdQuery,
   useGetListQuery,
+  useGetVideoQuery,
 } = movieApi;

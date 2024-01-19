@@ -33,7 +33,7 @@ const Profile = () => {
         </Button>
       </Box>
       {!favoriteMovies?.results?.length && !watchlistMovies?.results?.length
-        ? <Typography variant="h5">Add favorites or watchlist some movies to see them here!</Typography>
+        ? <Typography variant="h5">Danh sách yêu thích của bạn chưa có bộ phim nào. Hãy thêm phim vào danh sách yêu thích</Typography>
         : (
           <Box>
             <RatedCards title="Favorite Movies" data={favoriteMovies} />

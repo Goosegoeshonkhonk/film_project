@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
-import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack } from '@mui/icons-material';
+import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, Rating } from '@mui/material';
+import { Movie as MovieIcon, Theaters, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, PlayArrow } from '@mui/icons-material';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { userSelector } from '../../features/auth';
 import TopCast from '../TopCast/TopCast';
 import MovieList from '../MovieList/MovieList';
 
-import { useGetRecommendationsQuery, useGetMovieQuery, useGetListQuery } from '../../services/TMDB';
+import { useGetRecommendationsQuery, useGetMovieQuery, useGetListQuery, useGetVideoQuery } from '../../services/TMDB';
 
 const MovieInfo = () => {
   const { user } = useSelector(userSelector);
@@ -20,16 +20,19 @@ const MovieInfo = () => {
   const { data, isFetching, error } = useGetMovieQuery(id);
   const { data: favoriteMovies } = useGetListQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
   const { data: watchlistMovies } = useGetListQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
-  const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movie_id: id });
+  const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', id, page: 1 });
+  const { data: video } = useGetVideoQuery(id);
 
   const [isMovieFavorited, setIsMovieFavorited] = useState(false);
   const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [watchNowModalOpen, setWatchNowModalOpen] = useState(false);
+  const [trailerModalOpen, setTrailerModalOpen] = useState(false);
 
-  const videoKey = data?.videos?.results?.[0]?.key ?? '';
+  const videoKey = video?.results?.[0]?.key ?? '';
+  const movieKey = video?.results?.[1]?.key ?? '';
 
   useEffect(() => {
     setIsMovieFavorited(!!favoriteMovies?.results?.find((movie) => movie?.id === data?.id));
@@ -48,8 +51,6 @@ const MovieInfo = () => {
 
     setIsMovieFavorited((prev) => !prev);
   };
-
-  console.log({ isMovieWatchlisted });
 
   const addToWatchlist = async () => {
     await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${localStorage.getItem('session_id')}`, {
@@ -130,9 +131,26 @@ const MovieInfo = () => {
           <div className={classes.buttonsContainer}>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
               <ButtonGroup size="small" variant="outlined">
-                <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language />}>Watch now</Button>
-                <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon />}>IMDB</Button>
-                <Button onClick={() => setOpen(true)} href="#" endIcon={<Theaters />}>Trailer</Button>
+                <Button onClick={() => setWatchNowModalOpen(true)} href="#" endIcon={<PlayArrow />}>
+                  Video
+                </Button>
+
+                <Button
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://www.imdb.com/title/${data?.imdb_id}`}
+                  endIcon={<MovieIcon />}
+                >
+                  IMDB
+                </Button>
+
+                <Button
+                  onClick={() => setTrailerModalOpen(true)}
+                  href="#"
+                  endIcon={<Theaters />}
+                >
+                  Trailer
+                </Button>
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
@@ -161,22 +179,39 @@ const MovieInfo = () => {
           ? <MovieList movies={recommendations} numberOfMovies={12} />
           : <Box>Có vẻ như không có bộ phim nào hợp với bạn rồi</Box>}
       </Box>
+      {movieKey && (
+      <Modal
+        closeAfterTransition
+        className={classes.modal}
+        open={watchNowModalOpen}
+        onClose={() => setWatchNowModalOpen(false)}
+      >
+        <iframe
+          key={movieKey}
+          className={classes.video}
+          width="600"
+          height="400"
+          title="Trailer"
+          src={`https://www.youtube.com/embed/${movieKey}`}
+          allow="autoplay; encrypted-media"
+        />
+      </Modal>
+      )}
       {videoKey && (
       <Modal
         closeAfterTransition
         className={classes.modal}
-        open={open}
-        onClose={() => setOpen(false)}
+        open={trailerModalOpen}
+        onClose={() => setTrailerModalOpen(false)}
       >
         <iframe
           key={videoKey}
-          autoPlay
           className={classes.video}
           width="600"
           height="400"
           title="Trailer"
           src={`https://www.youtube.com/embed/${videoKey}`}
-          allow="autoplay"
+          allow="autoplay; encrypted-media"
         />
       </Modal>
       )}

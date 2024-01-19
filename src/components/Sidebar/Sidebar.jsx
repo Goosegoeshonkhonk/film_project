@@ -37,7 +37,7 @@ const SideBar = ({ setMobileOpen }) => {
       </Link>
       <Divider />
       <List>
-        <ListSubheader>Categories</ListSubheader>
+        <ListSubheader>Danh mục</ListSubheader>
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
             <ListItem onClick={() => dispatch(selectGenreOrCategory(value))} buttonbase="true">
@@ -51,7 +51,7 @@ const SideBar = ({ setMobileOpen }) => {
       </List>
       <Divider />
       <List>
-        <ListSubheader>Genres</ListSubheader>
+        <ListSubheader>Thể loại</ListSubheader>
         {isFetching ? (
           <Box display="flex" justifyContent="center">
             <CircularProgress />
